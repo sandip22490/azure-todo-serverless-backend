@@ -1,0 +1,3 @@
+name: ${self:provider.prefix}-apim
+publisherEmail: sandip22490@gmail.com
+publisherName: Sandip Patel

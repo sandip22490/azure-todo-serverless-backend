@@ -1,0 +1,15 @@
+name: ${file(../base/config/apim.yml):name}
+apis: 
+  - name: ${file(../base.yml):services.todo}-api
+    subscriptionRequired: false
+    displayName: ${file(../base.yml):services.todo}-api
+    description: Todo API
+    protocols:
+      - https
+    path: ${file(../base.yml):services.todo}
+    authorization: none
+backends:
+  - name: ${self:service}-backend
+    url: ${self:service}
+cors: ${file(../base.yml):cors}
+jwtValidate: ${file(../base.yml):jwtValidate}
