@@ -6,5 +6,5 @@ Azure Serverless APIs using function, apim &amp; serverless framework
 - replace `Line No: 285` with below code -
 
 ```
-var localCommand = path_1.join(serverless.config.servicePath, "..", "node_modules", ".bin", command);
+var localCommand = path_1.join(serverless.config.servicePath, "..", "..", "node_modules", ".bin", command);
 ```

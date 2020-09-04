@@ -1,0 +1,92 @@
+createTask:
+  handler: src/handlers/create.default
+  apim:
+    api: ${self:service}-api
+    backend: ${self:service}-backend
+    operations:
+      - method: POST
+        urlTemplate: /
+        displayName: create-task
+  events:
+    - http: true
+      name: req
+      methods:
+        - POST
+      authLevel: function
+      route: task
+listTasks:
+  handler: src/handlers/list.default
+  apim:
+    api: ${self:service}-api
+    backend: ${self:service}-backend
+    operations:
+      - method: get
+        urlTemplate: /
+        displayName: list-tasks
+  events:
+    - http: true
+      name: req
+      methods:
+        - GET
+      authLevel: function
+      route: task
+getTask:
+  handler: src/handlers/get.default
+  apim:
+    api: ${self:service}-api
+    backend: ${self:service}-backend
+    operations:
+      - method: get
+        urlTemplate: /{task_id}
+        templateParameters:
+          - name: task_id
+            required: true
+            type: int
+        displayName: get-task
+  events:
+    - http: true
+      name: req
+      methods:
+        - GET
+      authLevel: function
+      route: task/{task_id}
+updateTask:
+  handler: src/handlers/update.default
+  apim:
+    api: ${self:service}-api
+    backend: ${self:service}-backend
+    operations:
+      - method: put
+        urlTemplate: /{task_id}
+        templateParameters:
+          - name: task_id
+            required: true
+            type: int
+        displayName: update-task
+  events:
+    - http: true
+      name: req
+      methods:
+        - PUT
+      authLevel: function
+      route: task/{task_id}
+rmTask:
+  handler: src/handlers/rm.default
+  apim:
+    api: ${self:service}-api
+    backend: ${self:service}-backend
+    operations:
+      - method: DELETE
+        urlTemplate: /{task_id}
+        templateParameters:
+          - name: task_id
+            required: true
+            type: int
+        displayName: remove-task
+  events:
+    - http: true
+      name: req
+      methods:
+        - DELETE
+      authLevel: function
+      route: task/{task_id}

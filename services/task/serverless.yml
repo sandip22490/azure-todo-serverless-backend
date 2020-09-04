@@ -1,0 +1,72 @@
+service: task
+
+frameworkVersion: ">=1.0.0 <2.0.0"
+
+plugins:
+  - serverless-webpack
+  - serverless-azure-functions
+  - serverless-dotenv-plugin
+  - serverless-scriptable-plugin
+
+provider:
+  name: azure
+  region: ${env:REGION}
+  runtime: nodejs12
+  prefix: ${file(../base.yml):prefix}
+  stage: ${env:STAGE}
+  resourceGroup: ${self:provider.prefix}-${self:provider.stage}-rg
+  deploymentName: ${self:provider.prefix}-${self:service}-${self:provider.stage}-deployment
+  deployment:
+    external: false
+    container: ${self:provider.prefix}-${self:service}-fn
+    rollback: true
+  appServicePlan:
+    name: ${file(../base/serverless.yml):provider.appServicePlan.name}
+  functionApp:
+    name: ${self:provider.prefix}-${self:service}-app
+  storageAccount:
+    name: ${file(../base/serverless.yml):provider.storageAccount.name}
+  appInsights:
+    name: ${file(../base/serverless.yml):provider.appInsights.name}
+  keyVault:
+    name: ${self:provider.prefix}-${self:service}-kv
+    resourceGroup: ${self:provider.resourceGroup}
+  apim: ${file(./config/apim.yml)}
+  armTemplate: ${file(./config/arm-template.yml)}
+
+custom:
+  dotenv:
+    path: ../../.env
+    include:
+      - 
+  webpack:
+    webpackConfig: ../../webpack.config.js
+  appSecrets:
+    - kvName: ${self:service}-db-name
+      appName: DB_NAME
+      value: ${env:DB_NAME}
+    - kvName: ${self:service}-db-username
+      appName: DB_USERNAME
+      value: ${env:DB_USERNAME}
+    - kvName: ${self:service}-db-password
+      appName: DB_PASSWORD
+      value: ${env:DB_PASSWORD}
+    - kvName: ${self:service}-db-host
+      appName: DB_HOST
+      value: ${env:DB_HOST}
+    - kvName: ${self:service}-db-instance
+      appName: DB_INSTANCE
+      value: ${env:DB_INSTANCE}
+  scriptHooks:
+    before:deploy:deploy: ./hooks/beforeDeploy.js
+    after:deploy:deploy: ./hooks/afterDeploy.js
+
+# you can add packaging information here
+package:
+  # include:
+  #   -
+  exclude:
+    - local.settings.json
+    - .vscode/**
+
+functions: ${file(./config/functions.yml)}

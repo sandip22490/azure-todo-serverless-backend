@@ -103,3 +103,4 @@ local.settings.json
 *.ppk
 *.key
 */Environments/*
+env.ps1
