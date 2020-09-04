@@ -56,4 +56,4 @@ package:
     - local.settings.json
     - .vscode/**
 
-# functions: ${file(./config/functions.yml)}
+functions: ${file(./config/functions.yml)}

@@ -1,0 +1,9 @@
+hello:
+  handler: src/handlers/hello.default
+  events:
+    - http: true
+      name: req
+      methods:
+        - GET
+      authLevel: function
+      route: hello

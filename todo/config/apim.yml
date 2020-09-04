@@ -12,4 +12,4 @@ backends:
   - name: ${self:service}-backend
     url: ${self:service}
 cors: ${file(../base.yml):cors}
-jwtValidate: ${file(../base.yml):jwtValidate}
+# jwtValidate: ${file(../base.yml):jwtValidate}
